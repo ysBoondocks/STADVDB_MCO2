@@ -1,0 +1,11 @@
+ENSURE THAT THE SERVER IS RUNNING BEFORE RUNNING
+
+NPM INSTALL THE FOLLOWING:
+1.) express
+2.) express-handlebars
+3.) dotenv
+4.) mysql2
+5.) body-parser
+
+DEV DEPENDENCIES:
+1.) nodemon
