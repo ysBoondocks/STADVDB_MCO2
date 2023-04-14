@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import Axios from "axios";
 
 export default function EditMovieButton({index, table}) {
   const [open, setOpen] = React.useState(false);
@@ -30,6 +31,17 @@ export default function EditMovieButton({index, table}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputValues);
+    Axios.post('http://localhost:80/api/edit', {
+      id: table[index].id,
+      name: inputValues.name,
+      year: inputValues.year,
+    }).then((response) => {
+      if(response){
+        window.location.reload();
+      }
+    });
+
+    
   };
 
   return (

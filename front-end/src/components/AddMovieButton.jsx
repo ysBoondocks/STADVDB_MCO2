@@ -33,7 +33,11 @@ export default function AddMovieButton() {
     Axios.post('http://localhost:80/api/add', {
       name: inputValues.name,
       year: inputValues.year,
-    })
+    }).then((response) => {
+      if(response){
+        window.location.reload();
+      }
+    });
     console.log(inputValues);
   };
 
