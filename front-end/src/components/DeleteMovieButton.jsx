@@ -1,0 +1,51 @@
+import React, { useState } from "react";
+import {
+  Button,
+  Dialog,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Input,
+} from "@material-tailwind/react";
+
+export default function DeleteMovieButton({index}) {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen((cur) => !cur);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(index);
+  };
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleOpen} className="bg-red-400">
+        Delete Movie
+      </Button>
+      <Dialog
+        size="s"
+        open={open}
+        handler={handleOpen}
+        className="bg-transparent shadow-none"
+      >
+        <Card className="mx-auto w-full max-w-[24rem]">
+          <CardBody>
+            <Typography variant="p" color="black" className='text-center'>
+                Are you sure you want to Delete?
+            </Typography>
+          </CardBody>
+          <CardFooter className="pt-0 flex justify-evenly items-center">
+            <Button onClick={handleSubmit} className=" bg-green-500">
+              Confirm
+            </Button>
+            <Button onClick={handleOpen} className="bg-red-400">
+              Cancel
+            </Button>
+          </CardFooter>
+        </Card>
+      </Dialog>
+    </React.Fragment>
+  );
+}
