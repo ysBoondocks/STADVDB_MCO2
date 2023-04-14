@@ -5,6 +5,8 @@ import Header from "../components/Header";
 import Search from "../components/Search";
 import DeleteMovieButton from "../components/DeleteMovieButton";
 
+import Axios from "axios";
+
 export default function Home() {
   const [node, setNode] = useState(1);
   const [tableToShow, setTableToShow] = useState([{},]);
@@ -25,59 +27,53 @@ export default function Home() {
   
   const [rows1, setRows1] = useState([
     {
-      ID: 1,
-      Name: "Avengers",
-      Year: "2012",
-      Genre: "Action",
-      D_fname: "Jorge",
-      D_lname: "Bush",
+      id: 1,
+      name: "Avengers",
+      year: "2012",
+      genre: "Action",
+      director_first_name: "Jorge",
+      director_last_name: "Bush",
     },
-    {
-      ID: 2,
-      Name: "Revenge",
-      Year: "1999",
-      Genre: "Comedy",
-      D_fname: "Georgia",
-      D_lname: "Tree",
-    },
+
+
   ]);
 
   const [rows2, setRows2] = useState([
     {
-      ID: 1,
-      Name: "Band",
-      Year: "1934",
-      Genre: "Horror",
-      D_fname: "Name",
-      D_lname: "Less",
+      id: 1,
+      name: "Band",
+      year: "1934",
+      genre: "Horror",
+      director_first_name: "Name",
+      director_last_name: "Less",
     },
   ]);
 
   const [rows3, setRows3] = useState([
     {
-      ID: 1,
-      Name: "Avengers",
-      Year: "2012",
-      Genre: "Action",
-      D_fname: "Jorge",
-      D_lname: "Bush",
+      id: 1,
+      name: "Revengers",
+      year: "2233",
+      genre: "Comde",
+      director_first_name: "Jorge",
+      director_last_name: "Bush",
     },
     {
-      ID: 2,
-      Name: "Revenge",
-      Year: "1999",
-      Genre: "Comedy",
-      D_fname: "Georgia",
-      D_lname: "Tree",
+      id: 2,
+      name: "Revengers",
+      year: "2233",
+      genre: "Comde",
+      director_first_name: "Jorge",
+      director_last_name: "Bush",
     },
     {
-        ID: 3,
-        Name: "Ojt",
-        Year: "2200",
-        Genre: "Drama",
-        D_fname: "He",
-        D_lname: "She",
-      },
+      id: 3,
+      name: "Revengers",
+      year: "2233",
+      genre: "Comde",
+      director_first_name: "Jorge",
+      director_last_name: "Bush",
+    },
   ]);
 
   useEffect(()=>{
@@ -90,6 +86,14 @@ export default function Home() {
     }
   },[node, rows1, rows2, rows3])
 
+  useEffect(()=>{
+    Axios.get('http://localhost:80/api/get').then((response)=> {
+      console.log(response.data);
+      setRows1(response.data)
+    })
+  },[])
+
+  console.log(rows1);
   return (
     <div>
       <div className="sm:px-6 w-full">
@@ -100,14 +104,6 @@ export default function Home() {
           </div>
           <div className="flex items-center justify-center">
             <Search></Search>
-            {/* <div className="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
-              <p>Sort By:</p>
-              <select className="focus:outline-none bg-transparent ml-1">
-                <option className="text-sm text-indigo-800">Latest</option>
-                <option className="text-sm text-indigo-800">Oldest</option>
-                <option className="text-sm text-indigo-800">Latest</option>
-              </select>
-            </div> */}
           </div>
         </div>
         {/* END OF SORTING */}
@@ -157,14 +153,6 @@ export default function Home() {
               )}
             </div>
 
-            {/* <button
-              onclick="popuphandler(true)"
-              className="mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded"
-            >
-              <p className="text-sm font-medium leading-none text-white">
-                Add Movie
-              </p>
-            </button> */}
             {isChecked ? (<><DeleteMovieButton index={index}></DeleteMovieButton></>): (<><AddMovieButton className="bg-indigo-500"></AddMovieButton></>)
             }
             

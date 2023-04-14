@@ -67,22 +67,22 @@ export default function Table({ table, handleCheckbox }) {
                           )}
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.ID}
+                          {row.id}
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.Name}
+                          {row.name}
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.Year}
+                          {row.year}
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.Genre}
+                          {row.genre}
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.D_fname}
+                          {row.director_first_name}
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.D_lname}
+                          {row.director_last_name}
                         </td>
                         {/* <td class="whitespace-nowrap px-6 py-4">
                                   Cell
