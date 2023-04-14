@@ -10,13 +10,13 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function AddMovieButton() {
+export default function EditMovieButton({index, table}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
   const [inputValues, setInputValues] = useState({
-    name: "",
-    year: "",
+    name: table[index].name,
+    year: table[index].year,
   });
 
   const handleInputChange = (e) => {
@@ -34,8 +34,8 @@ export default function AddMovieButton() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen} className="bg-indigo-500">
-        Add Movie
+      <Button onClick={handleOpen} className="bg-green-500">
+        Edit Movie
       </Button>
       <Dialog
         size="xs"
@@ -48,8 +48,11 @@ export default function AddMovieButton() {
             color="blue"
             className="mb-4 grid h-28 place-items-center bg-indigo-500"
           >
-            <Typography variant="h3" color="white">
-              Adding Movie
+            <Typography variant="h3" color="white" className='text-center'>
+              Editting
+            </Typography>
+            <Typography variant="p" color="white" className='text-center'>
+              {table[index].name}
             </Typography>
           </CardHeader>
           <CardBody>
@@ -72,7 +75,7 @@ export default function AddMovieButton() {
           </CardBody>
           <CardFooter className="pt-5 flex justify-evenly items-center">
             <Button onClick={handleSubmit} className="w-3/5 bg-indigo-500">
-              Add Movie
+              Confirm Changes
             </Button>
             <Button onClick={handleOpen} className="bg-red-400">
               Cancel

@@ -6,25 +6,26 @@ import Search from "../components/Search";
 import DeleteMovieButton from "../components/DeleteMovieButton";
 
 import Axios from "axios";
+import EditMovieButton from "../components/EditMovieButton";
 
 export default function Home() {
   const [node, setNode] = useState(1);
-  const [tableToShow, setTableToShow] = useState([{},]);
+  const [tableToShow, setTableToShow] = useState([{}]);
 
   const handleSetNode = (node) => {
     setNode(node);
     console.log(node);
+    setIsChecked(false);
   };
 
   const [isChecked, setIsChecked] = useState(false);
   const [index, setIndex] = useState(-1);
 
-  function handleCheckbox(val,index){
+  function handleCheckbox(val, index) {
     setIsChecked(val);
-    setIndex(index)
+    setIndex(index);
   }
 
-  
   const [rows1, setRows1] = useState([
     {
       id: 1,
@@ -34,8 +35,6 @@ export default function Home() {
       director_first_name: "Jorge",
       director_last_name: "Bush",
     },
-
-
   ]);
 
   const [rows2, setRows2] = useState([
@@ -76,22 +75,22 @@ export default function Home() {
     },
   ]);
 
-  useEffect(()=>{
-    if(node === 1){
+  useEffect(() => {
+    if (node === 1) {
       setTableToShow(rows1);
-    }else if(node === 2){
+    } else if (node === 2) {
       setTableToShow(rows2);
-    }else{
+    } else {
       setTableToShow(rows3);
     }
-  },[node, rows1, rows2, rows3])
+  }, [node, rows1, rows2, rows3]);
 
-  useEffect(()=>{
-    Axios.get('http://localhost:80/api/get').then((response)=> {
+  useEffect(() => {
+    Axios.get("http://localhost:80/api/get").then((response) => {
       console.log(response.data);
-      setRows1(response.data)
-    })
-  },[])
+      setRows1(response.data);
+    });
+  }, []);
 
   console.log(rows1);
   return (
@@ -153,13 +152,26 @@ export default function Home() {
               )}
             </div>
 
-            {isChecked ? (<><DeleteMovieButton index={index}></DeleteMovieButton></>): (<><AddMovieButton className="bg-indigo-500"></AddMovieButton></>)
-            }
-            
+            {isChecked ? (
+              <div className="flex justify-between w-72">
+                <EditMovieButton
+                  index={index}
+                  table={tableToShow}
+                ></EditMovieButton>
+                <DeleteMovieButton
+                  index={index}
+                  table={tableToShow}
+                ></DeleteMovieButton>
+              </div>
+            ) : (
+              <>
+                <AddMovieButton className="bg-indigo-500"></AddMovieButton>
+              </>
+            )}
           </div>
           {/* END OF NODE TABS */}
 
-          <Table table={tableToShow} handleCheckbox={handleCheckbox}></Table>
+          <Table table={tableToShow} handleCheckbox={handleCheckbox} isChecked={isChecked} setIsChecked={setIsChecked}></Table>
         </div>
       </div>
     </div>

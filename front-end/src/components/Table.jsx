@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Checkbox } from "@material-tailwind/react";
 
-export default function Table({ table, handleCheckbox }) {
+export default function Table({ table, handleCheckbox, isChecked, setIsChecked }) {
   const [show, setShow] = useState(null);
 
   const [currChecked, setCurrChecked] = useState(-1);
@@ -9,12 +9,9 @@ export default function Table({ table, handleCheckbox }) {
     "ID",
     "Name",
     "Year",
-    "Genre",
-    "Director First Name",
-    "Director Last Name",
   ]);
 
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (event, index) => {
     setIsChecked(event.target.checked);
@@ -74,15 +71,6 @@ export default function Table({ table, handleCheckbox }) {
                         </td>
                         <td class="whitespace-nowrap px-6 py-4 font-medium">
                           {row.year}
-                        </td>
-                        <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.genre}
-                        </td>
-                        <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.director_first_name}
-                        </td>
-                        <td class="whitespace-nowrap px-6 py-4 font-medium">
-                          {row.director_last_name}
                         </td>
                         {/* <td class="whitespace-nowrap px-6 py-4">
                                   Cell

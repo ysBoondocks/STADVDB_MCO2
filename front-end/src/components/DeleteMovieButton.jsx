@@ -10,7 +10,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 
-export default function DeleteMovieButton({index}) {
+export default function DeleteMovieButton({index, table}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
@@ -33,7 +33,10 @@ export default function DeleteMovieButton({index}) {
         <Card className="mx-auto w-full max-w-[24rem]">
           <CardBody>
             <Typography variant="p" color="black" className='text-center'>
-                Are you sure you want to Delete?
+                Are you sure you want to delete this movie?
+            </Typography>
+            <Typography variant="h4" color="black" className='text-center'>
+                {table[index].name}
             </Typography>
           </CardBody>
           <CardFooter className="pt-0 flex justify-evenly items-center">
