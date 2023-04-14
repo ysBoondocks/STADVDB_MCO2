@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import Axios from "axios";
 
 export default function DeleteMovieButton({index, table}) {
   const [open, setOpen] = React.useState(false);
@@ -17,6 +18,13 @@ export default function DeleteMovieButton({index, table}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(index);
+    Axios.post('http://localhost:80/api/delete', {
+      id: table[index].id,
+    }).then((response) => {
+      if(response){
+        window.location.reload();
+      }
+    });
   };
 
   return (
