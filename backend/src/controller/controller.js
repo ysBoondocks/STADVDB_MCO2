@@ -2,7 +2,7 @@ const mysqlConnection = require('../../mysql');
 
 const controller = {
     getMovies: function (req, res) {
-        mysqlConnection.query('SELECT * FROM movies LIMIT 10', (err, result) => {
+        mysqlConnection.query('SELECT * FROM movies LIMIT 1000', (err, result) => {
             if (err) {
                 console.log(err);
             } else {
