@@ -97,6 +97,7 @@ export default function Table({
                 </div>
               </div>
             </div>
+            <div className="text-gray-700 mt-3 ml-1">Showing {table.length} records</div>
           </div>
         </>
       )}
