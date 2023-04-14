@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
 } from "@material-tailwind/react";
+import Axios from "axios";
 
 export default function AddMovieButton() {
   const [open, setOpen] = React.useState(false);
@@ -29,6 +30,10 @@ export default function AddMovieButton() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    Axios.post('http://localhost:80/api/add', {
+      name: inputValues.name,
+      year: inputValues.year,
+    })
     console.log(inputValues);
   };
 
