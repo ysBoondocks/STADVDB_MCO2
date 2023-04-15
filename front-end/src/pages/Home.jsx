@@ -114,7 +114,7 @@ export default function Home() {
       ) : (
         <div className="sm:px-6 w-full">
           {/* SORTING */}
-          <div className="px-4 py-2">
+          <div className="px-4 py-0">
             <div>
               <Header></Header>
             </div>
@@ -232,7 +232,8 @@ export default function Home() {
               ) : (
                 <>
                   <AddMovieButton className="bg-indigo-500"
-                    node={node}>
+                    node={node}
+                    table={tableToShow}>
                   </AddMovieButton>
                 </>
               )}

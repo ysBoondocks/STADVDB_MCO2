@@ -6,7 +6,7 @@ export default function Header() {
     <div className="pb-10" style={{ fontFamily: '"Lato", sans-serif' }}>
       {/* Code block starts */}
       <dh-component>
-        <section className="max-w-8xl mx-auto container bg-white pt-10">
+        <section className="max-w-8xl mx-auto container bg-white pt-4">
           <div>
             <div role="contentinfo" className="flex items-center flex-col px-4">
               <p tabIndex={0} className="focus:outline-none uppercase text-md text-cente leading-4 text-indigo-500">STADVDB</p>

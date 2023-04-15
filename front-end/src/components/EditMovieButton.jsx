@@ -11,8 +11,16 @@ import {
 } from "@material-tailwind/react";
 import Axios from "axios";
 
-export default function EditMovieButton({index, table, node}) {
+export default function EditMovieButton({ index, table, node }) {
   const [open, setOpen] = React.useState(false);
+
+  const [disable, setDisable] = React.useState(false);
+  const [nameError, setNameError] = React.useState(false);
+  const [yearError, setYearError] = React.useState(false);
+
+  let nameFlag = nameError;
+  let yearFlag = yearError;
+
   const handleOpen = () => setOpen((cur) => !cur);
 
   const [inputValues, setInputValues] = useState({
@@ -22,6 +30,37 @@ export default function EditMovieButton({index, table, node}) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "name") {
+      if (value === "") {
+        nameFlag = true;
+        setNameError(true);
+        console.log("name is cleared");
+      } else {
+        nameFlag = false
+        setNameError(false);
+      }
+    } else if (name === "year") {
+      if (value === "") {
+        yearFlag = true;
+        setYearError(true);
+        console.log("year is cleared");
+      } else {
+        yearFlag = false;
+        setYearError(false);
+      }
+    }
+
+    if (nameError || yearError) {
+      setDisable(true);
+    } else if(nameFlag || yearFlag){
+      setDisable(true);
+    }
+    else {
+      console.log("handle");
+      setDisable(false);
+    }
+
     setInputValues((prevInputValues) => ({
       ...prevInputValues,
       [name]: value,
@@ -31,33 +70,33 @@ export default function EditMovieButton({index, table, node}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputValues);
-    if (node===1){
-      Axios.post('http://localhost:80/api/edit', {
+    if (node === 1) {
+      Axios.post("http://localhost:80/api/edit", {
         id: table[index].id,
         name: inputValues.name,
         year: inputValues.year,
       }).then((response) => {
-        if(response){
+        if (response) {
           window.location.reload();
         }
       });
-    } else if (node===2){
-      Axios.post('http://localhost:80/api/edit2', {
+    } else if (node === 2) {
+      Axios.post("http://localhost:80/api/edit2", {
         id: table[index].id,
         name: inputValues.name,
         year: inputValues.year,
       }).then((response) => {
-        if(response){
+        if (response) {
           window.location.reload();
         }
       });
-    } else if (node===3){
-      Axios.post('http://localhost:80/api/edit3', {
+    } else if (node === 3) {
+      Axios.post("http://localhost:80/api/edit3", {
         id: table[index].id,
         name: inputValues.name,
         year: inputValues.year,
       }).then((response) => {
-        if(response){
+        if (response) {
           window.location.reload();
         }
       });
@@ -66,7 +105,7 @@ export default function EditMovieButton({index, table, node}) {
 
   return (
     <React.Fragment>
-      <Button onClick={handleOpen} className="bg-green-500">
+      <Button onClick={handleOpen} className="bg-green-500" disabled={false}>
         Edit Movie
       </Button>
       <Dialog
@@ -80,10 +119,10 @@ export default function EditMovieButton({index, table, node}) {
             color="blue"
             className="mb-4 grid h-28 place-items-center bg-indigo-500"
           >
-            <Typography variant="h3" color="white" className='text-center'>
-              Editting
+            <Typography variant="h3" color="white" className="text-center">
+              Editing
             </Typography>
-            <Typography variant="p" color="white" className='text-center'>
+            <Typography variant="p" color="white" className="text-center">
               {table[index].name}
             </Typography>
           </CardHeader>
@@ -106,7 +145,11 @@ export default function EditMovieButton({index, table, node}) {
             </form>
           </CardBody>
           <CardFooter className="pt-5 flex justify-evenly items-center">
-            <Button onClick={handleSubmit} className="w-3/5 bg-indigo-500">
+            <Button
+              onClick={handleSubmit}
+              className="w-3/5 bg-indigo-500"
+              disabled={disable}
+            >
               Confirm Changes
             </Button>
             <Button onClick={handleOpen} className="bg-red-400">
