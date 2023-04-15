@@ -12,6 +12,10 @@ export default function Search({handleSearch}) {
   const handleInputChange = (e) => {
     const { value } = e.target;
     
+    if(value === ''){
+      handleSearch('')
+    }
+
     setInputValues(value);
   };
 

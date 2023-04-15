@@ -15,39 +15,45 @@ export default function Home() {
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [nodeStatus, setNodeStatus] = useState({
+    node1: true,
+    node2: true,
+    node3: false,
+  });
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
-  const [rows1, setRows1] = useState([
-  ]);
+  const [rows1, setRows1] = useState([]);
 
-  const [rows2, setRows2] = useState([
-  ]);
+  const [rows2, setRows2] = useState([]);
 
-  const [rows3, setRows3] = useState([
-  ]);
+  const [rows3, setRows3] = useState([]);
 
   const handleSearch = (inputSearch) => {
     setSearch(inputSearch);
-  }
+  };
 
-  useEffect(()=> {
+  useEffect(() => {
     async function searchData() {
-      const response = await axios.get(`http://localhost:80/api/search/${search}`);
-      console.log(response)
+      const response = await axios.get(
+        `http://localhost:80/api/search/${search}`
+      );
+      console.log(response);
 
-      if(node===1){
-        setRows1(response.data)
-      }else if(node===2){
-        setRows2(response.data)
-      }else{
-        setRows3(response.data)
+      if (node === 1) {
+        setRows1(response.data);
+      } else if (node === 2) {
+        setRows2(response.data);
+      } else {
+        setRows3(response.data);
       }
     }
-    searchData();
-    console.log("useEffect")
-  },[search])
 
+    if (search !== "") {
+      searchData();
+    }
+    console.log("useEffect");
+  }, [search]);
 
   useEffect(() => {
     async function fetchData() {
@@ -71,14 +77,12 @@ export default function Home() {
       setLoading(false);
     }
 
-    fetchData();
-    fetchData2();
-    fetchData3();
-  }, []);
-
-
-
-
+    if (search === "") {
+      fetchData();
+      fetchData2();
+      fetchData3();
+    }
+  }, [search]);
 
   const handleSetNode = (node) => {
     setNode(node);
@@ -92,8 +96,6 @@ export default function Home() {
     setIsChecked(val);
     setIndex(index);
   }
-
- 
 
   useEffect(() => {
     if (node === 1) {
@@ -119,9 +121,56 @@ export default function Home() {
             <div className="flex items-center justify-center">
               <Search handleSearch={handleSearch}></Search>
             </div>
+            <div className="flex justify-evenly w-48 ml-10">
+              {nodeStatus.node1 ? (
+                <>
+                  {" "}
+                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
+                    Node1
+                  </span>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
+                    Node1
+                  </span>
+                </>
+              )}
+              {nodeStatus.node2 ? (
+                <>
+                  {" "}
+                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
+                    Node2
+                  </span>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
+                    Node2
+                  </span>
+                </>
+              )}
+              {nodeStatus.node3 ? (
+                <>
+                  {" "}
+                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
+                    Node3
+                  </span>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
+                    Node3
+                  </span>
+                </>
+              )}
+            </div>
           </div>
           {/* END OF SORTING */}
-          <div className="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
+          <div className="bg-white py-2 md:py-7 px-4 md:px-8 xl:px-10">
             {/* NODE TABS */}
             <div className="sm:flex items-center justify-between">
               <div className="flex items-center">

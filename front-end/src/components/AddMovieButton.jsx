@@ -20,6 +20,14 @@ export default function AddMovieButton() {
     year: "",
   });
 
+  const handleCancel = () => {
+    let temp = {
+      name: "",
+      year: "",
+    }
+    setInputValues(temp)
+    handleOpen()
+  }
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputValues((prevInputValues) => ({
@@ -34,11 +42,20 @@ export default function AddMovieButton() {
       name: inputValues.name,
       year: inputValues.year,
     }).then((response) => {
-      // if(response){
-      //   window.location.reload();
-      // }
+      if(response){
+        
+        let temp = {
+          name: "",
+          year: "",
+        }
+        setInputValues(temp)
+        handleOpen()
+        console.log(inputValues);
+        window.location.reload();
+      }
     });
-    console.log(inputValues);
+
+ 
   };
 
   return (
@@ -83,7 +100,7 @@ export default function AddMovieButton() {
             <Button onClick={handleSubmit} className="w-3/5 bg-indigo-500">
               Add Movie
             </Button>
-            <Button onClick={handleOpen} className="bg-red-400">
+            <Button onClick={handleCancel} className="bg-red-400">
               Cancel
             </Button>
           </CardFooter>
