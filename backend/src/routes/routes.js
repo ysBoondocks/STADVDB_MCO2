@@ -10,7 +10,9 @@ router.get(`/get`, controller.getMovies);
 router.post(`/add`, controller.addMovie);
 router.post(`/delete`, controller.deleteMovie);
 router.post(`/edit`, controller.editMovie);
-router.post(`/search`, controller.searchMovie);
+
+// router.post(`/search`, controller.searchMovie);
+router.get(`/search/:name`, controller.searchMovie);
 
 router.get(`/get2`, controller2.getMovies);
 // router.post(`/add2`, controller2.addMovie);

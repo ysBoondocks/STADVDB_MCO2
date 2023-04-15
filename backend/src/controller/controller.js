@@ -73,7 +73,7 @@ const controller = {
 
     searchMovie: function (req,res){
 
-
+        console.log(req.body.name)
         mysqlConnection.query(`SELECT * FROM movies WHERE name="${req.body.name}"`, (err, result) => {
             if (err) {
                 console.log(err);

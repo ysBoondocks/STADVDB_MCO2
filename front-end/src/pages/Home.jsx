@@ -16,6 +16,39 @@ export default function Home() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const [search, setSearch] = useState('');
+
+  const [rows1, setRows1] = useState([
+  ]);
+
+  const [rows2, setRows2] = useState([
+  ]);
+
+  const [rows3, setRows3] = useState([
+  ]);
+
+  const handleSearch = (inputSearch) => {
+    setSearch(inputSearch);
+  }
+
+  useEffect(()=> {
+    async function searchData() {
+      const response = await axios.get(`http://localhost:80/api/search/${search}`);
+      console.log(response)
+
+      if(node===1){
+        setRows1(response.data)
+      }else if(node===2){
+        setRows2(response.data)
+      }else{
+        setRows3(response.data)
+      }
+    }
+    searchData();
+    console.log("useEffect")
+  },[search])
+
+
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get("http://localhost:80/api/get");
@@ -60,14 +93,7 @@ export default function Home() {
     setIndex(index);
   }
 
-  const [rows1, setRows1] = useState([
-  ]);
-
-  const [rows2, setRows2] = useState([
-  ]);
-
-  const [rows3, setRows3] = useState([
-  ]);
+ 
 
   useEffect(() => {
     if (node === 1) {
@@ -91,7 +117,7 @@ export default function Home() {
               <Header></Header>
             </div>
             <div className="flex items-center justify-center">
-              <Search></Search>
+              <Search handleSearch={handleSearch}></Search>
             </div>
           </div>
           {/* END OF SORTING */}
