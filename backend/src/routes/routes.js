@@ -15,10 +15,10 @@ router.post(`/edit`, controller.editMovie);
 router.get(`/search/:name`, controller.searchMovie);
 
 router.get(`/get2`, controller2.getMovies);
-// router.post(`/add2`, controller2.addMovie);
-// router.post(`/delete2`, controller2.deleteMovie);
-// router.post(`/edit2`, controller2.editMovie);
-// router.post(`/search2`, controller2.searchMovie);
+router.post(`/add2`, controller2.addMovie);
+router.post(`/delete2`, controller2.deleteMovie);
+router.post(`/edit2`, controller2.editMovie);
+router.post(`/search2`, controller2.searchMovie);
 
 router.get(`/get3`, controller3.getMovies);
 // router.post(`/add3`, controller3.addMovie);
