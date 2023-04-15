@@ -1,11 +1,22 @@
 //FOR NODE 3
 const mysqlConnection = require('../../mysql3');
+const mysqlConnection2 = require('../../mysql');    // NODE 1
 
 const controller3 = {
     getMovies: function (req, res) {
         mysqlConnection.query('SELECT * FROM movies LIMIT 1000', (err, result) => {
             if (err) {
                 console.log(err);
+                //IF NODE 3 FAILS, GET FROM NODE 1 >= 1980
+                mysqlConnection2.query('SELECT * FROM movies m WHERE m.year >= 1980', (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        data = JSON.parse(JSON.stringify(result))
+                        //console.log(data)
+                        res.send(data)
+                    }
+                });
             } else {
                 var data = JSON.parse(JSON.stringify(result))
                 console.log(data)

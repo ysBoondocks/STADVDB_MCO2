@@ -1,11 +1,22 @@
 //FOR NODE 2
 const mysqlConnection = require('../../mysql2');
+const mysqlConnection2 = require('../../mysql');    //NODE 1
 
 const controller2 = {
     getMovies: function (req, res) {
         mysqlConnection.query('SELECT * FROM movies LIMIT 1000', (err, result) => {
             if (err) {
                 console.log(err);
+                    // IF NODE 2 FAILS GET PART OF NODE 1 (LESS THAN 1980)
+                    mysqlConnection2.query('SELECT * FROM movies m WHERE m.year < 1980', (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            data = JSON.parse(JSON.stringify(result))
+                            //console.log(data)
+                            res.send(data)
+                        }
+                    });
             } else {
                 var data = JSON.parse(JSON.stringify(result))
                 //console.log(data)

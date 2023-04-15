@@ -1,22 +1,42 @@
 const mysqlConnection = require('../../mysql');
+const mysqlConnection2 = require('../../mysql2');
+const mysqlConnection3 = require('../../mysql3');
 
 const controller = {
 
     getMovies: function (req, res) {
-        mysqlConnection.query('SELECT * FROM movies LIMIT 1000', (err, result) => {
+        var data;
+         mysqlConnection.query('SELECT * FROM movies', (err, result) => {
             if (err) {
                 console.log(err);
+                    // IF NODE 1 FAILS CONCAT NODE 2 AND NODE 3
+                    mysqlConnection2.query('SELECT * FROM movies', (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            data = JSON.parse(JSON.stringify(result))
+                            //console.log(data)
+                            mysqlConnection3.query('SELECT * FROM movies', (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    data2 = JSON.parse(JSON.stringify(result))
+                                    data = data.concat(data2);
+                                    //console.log(data)
+                                    res.send(data)
+                                }
+                            });
+                        }
+                    });
             } else {
-                var data = JSON.parse(JSON.stringify(result))
-                console.log(data)
+                data = JSON.parse(JSON.stringify(result))
+                //console.log(data)
                 res.send(data)
             }
         });
     },
 
     addMovie: function (req,res){
-
-
         mysqlConnection.query(`SELECT COUNT(*) FROM movies`, (err, result) => {
             if (err) {
                 console.log(err);
@@ -39,12 +59,11 @@ const controller = {
     },
 
     deleteMovie: function (req,res){
-
-
         mysqlConnection.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
+                //console.log(${req.body.year});
                 var data = JSON.parse(JSON.stringify(result))
                 console.log(data)
                 res.send(true);
@@ -54,7 +73,6 @@ const controller = {
 
     
     editMovie: function (req,res){
-
         console.log("reqname",req.body.name);
         console.log("reqyear",req.body.year);
         let success = false;
