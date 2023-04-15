@@ -221,15 +221,19 @@ export default function Home() {
                   <EditMovieButton
                     index={index}
                     table={tableToShow}
+                    node={node}
                   ></EditMovieButton>
                   <DeleteMovieButton
                     index={index}
                     table={tableToShow}
+                    node={node}
                   ></DeleteMovieButton>
                 </div>
               ) : (
                 <>
-                  <AddMovieButton className="bg-indigo-500"></AddMovieButton>
+                  <AddMovieButton className="bg-indigo-500"
+                    node={node}>
+                  </AddMovieButton>
                 </>
               )}
             </div>

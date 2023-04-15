@@ -4,7 +4,7 @@ const mysqlConnection2 = require('../../mysql');    // NODE 1
 
 const controller3 = {
     getMovies: function (req, res) {
-        mysqlConnection.query('SELECT * FROM movies LIMIT 1000', (err, result) => {
+        mysqlConnection.query('SELECT * FROM movies', (err, result) => {
             if (err) {
                 console.log(err);
                 //IF NODE 3 FAILS, GET FROM NODE 1 >= 1980
@@ -19,7 +19,7 @@ const controller3 = {
                 });
             } else {
                 var data = JSON.parse(JSON.stringify(result))
-                console.log(data)
+                //console.log(data)
                 res.send(data)
             }
         });

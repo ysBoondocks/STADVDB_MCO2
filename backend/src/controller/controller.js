@@ -37,23 +37,55 @@ const controller = {
     },
 
     addMovie: function (req,res){
-        mysqlConnection.query(`SELECT COUNT(*) FROM movies`, (err, result) => {
+        mysqlConnection.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                var data = JSON.parse(JSON.stringify(result))
-                console.log(data)
-                var dataCount = data[0]['COUNT(*)']+1;
-                mysqlConnection.query(`INSERT INTO movies (id, name, year) VALUES ('${dataCount}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        var data = JSON.parse(JSON.stringify(result))
-                        console.log(data)
-                        res.send(true);
-                    }
-                });
-                
+                var existing = JSON.parse(JSON.stringify(result))
+                console.log(existing.length);
+                if (existing.length == 0) {
+                    mysqlConnection.query(`SELECT m.id FROM movies m ORDER BY m.id DESC LIMIT 1`, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            var data = JSON.parse(JSON.stringify(result))
+                            var MaxID = data[0]['id']+1;
+                            mysqlConnection.query(`INSERT INTO movies (id, name, year) VALUES ('${MaxID}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    //ADD TO NODE 2
+                                    if (`${req.body.year}` < 1980) {
+                                        mysqlConnection2.query(`INSERT INTO movies (id, name, year) VALUES ('${MaxID}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                            }
+                                        });
+                                    } 
+                                    //ADD TO NODE 3
+                                    else {
+                                        mysqlConnection3.query(`INSERT INTO movies (id, name, year) VALUES ('${MaxID}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                            }
+                                        });
+                                    }
+
+                                    var result = JSON.parse(JSON.stringify(result))
+                                    //console.log(data)
+                                    res.send(true);
+                                }
+                            });
+                        }
+                    });
+                }
+                else {
+                    //CONNECT TO FRONTEND
+                    console.log("MOVIE IS ALREADY IN DATABASE")
+                    res.send(false)
+                }
             }
         });
     },
@@ -101,6 +133,19 @@ const controller = {
                 if (err) {
                     console.log(err);
                 } else {
+                    if (req.body.year < 1980) {
+                        mysqlConnection2.query(`UPDATE movies SET name = "${req.body.name}" WHERE id=${req.body.id}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        mysqlConnection3.query(`UPDATE movies SET name = "${req.body.name}" WHERE id=${req.body.id}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    }
                     success = true;
                 }
             });
@@ -110,6 +155,19 @@ const controller = {
                 if (err) {
                     console.log(err);
                 } else {
+                    if (req.body.year < 1980) {
+                        mysqlConnection2.query(`UPDATE movies SET year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        mysqlConnection3.query(`UPDATE movies SET year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    }
                     success = true;
                 }
             });

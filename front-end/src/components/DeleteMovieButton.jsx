@@ -11,21 +11,42 @@ import {
 } from "@material-tailwind/react";
 import Axios from "axios";
 
-export default function DeleteMovieButton({index, table}) {
+export default function DeleteMovieButton({index, table, node}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(index);
-    Axios.post('http://localhost:80/api/delete', {
-      id: table[index].id,
-      year: table[index].year,
-    }).then((response) => {
-      if(response){
-        window.location.reload();
-      }
-    });
+    if (node===1){
+          Axios.post('http://localhost:80/api/delete', {
+          id: table[index].id,
+          year: table[index].year,
+        }).then((response) => {
+          if(response){
+            window.location.reload();
+          }
+        });
+    } else if (node===2){
+      Axios.post('http://localhost:80/api/delete2', {
+        id: table[index].id,
+        year: table[index].year,
+      }).then((response) => {
+        if(response){
+          window.location.reload();
+        }
+      });
+    } else if (node===3) {
+      Axios.post('http://localhost:80/api/delete3', {
+        id: table[index].id,
+        year: table[index].year,
+      }).then((response) => {
+        if(response){
+          window.location.reload();
+        }
+      });
+    }
+
   };
 
   return (

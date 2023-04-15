@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import Axios from "axios";
 
-export default function AddMovieButton() {
+export default function AddMovieButton({node}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
@@ -38,24 +38,42 @@ export default function AddMovieButton() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post('http://localhost:80/api/add', {
-      name: inputValues.name,
-      year: inputValues.year,
-    }).then((response) => {
-      if(response){
-        
-        let temp = {
-          name: "",
-          year: "",
-        }
-        setInputValues(temp)
-        handleOpen()
-        console.log(inputValues);
-        window.location.reload();
-      }
-    });
-
- 
+    if (node === 1) {
+          Axios.post('http://localhost:80/api/add', {
+          name: inputValues.name,
+          year: inputValues.year,
+        }).then((response) => {
+          if(response){
+            window.location.reload();
+          } else {
+            //DISPLAY MOVIE EXISTS
+          }
+        });
+    }
+    else if (node === 2) {
+        Axios.post('http://localhost:80/api/add2', {
+        name: inputValues.name,
+        year: inputValues.year,
+        }).then((response) => {
+          if(response){
+            window.location.reload();
+          } else {
+            //DISPLAY MOVIE EXISTS
+          }
+        });
+    } else if (node === 3) {
+        Axios.post('http://localhost:80/api/add3', {
+          name: inputValues.name,
+          year: inputValues.year,
+        }).then((response) => {
+          if(response){
+            window.location.reload();
+          } else {
+            //DISPLAY MOVIE EXISTS
+          }
+        });
+    }
+    console.log(inputValues);
   };
 
   return (

@@ -4,7 +4,7 @@ const mysqlConnection2 = require('../../mysql');    //NODE 1
 
 const controller2 = {
     getMovies: function (req, res) {
-        mysqlConnection.query('SELECT * FROM movies LIMIT 1000', (err, result) => {
+        mysqlConnection.query('SELECT * FROM movies', (err, result) => {
             if (err) {
                 console.log(err);
                     // IF NODE 2 FAILS GET PART OF NODE 1 (LESS THAN 1980)

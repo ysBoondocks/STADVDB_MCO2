@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import Axios from "axios";
 
-export default function EditMovieButton({index, table}) {
+export default function EditMovieButton({index, table, node}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
@@ -31,17 +31,37 @@ export default function EditMovieButton({index, table}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputValues);
-    Axios.post('http://localhost:80/api/edit', {
-      id: table[index].id,
-      name: inputValues.name,
-      year: inputValues.year,
-    }).then((response) => {
-      if(response){
-        window.location.reload();
-      }
-    });
-
-    
+    if (node===1){
+      Axios.post('http://localhost:80/api/edit', {
+        id: table[index].id,
+        name: inputValues.name,
+        year: inputValues.year,
+      }).then((response) => {
+        if(response){
+          window.location.reload();
+        }
+      });
+    } else if (node===2){
+      Axios.post('http://localhost:80/api/edit2', {
+        id: table[index].id,
+        name: inputValues.name,
+        year: inputValues.year,
+      }).then((response) => {
+        if(response){
+          window.location.reload();
+        }
+      });
+    } else if (node===3){
+      Axios.post('http://localhost:80/api/edit3', {
+        id: table[index].id,
+        name: inputValues.name,
+        year: inputValues.year,
+      }).then((response) => {
+        if(response){
+          window.location.reload();
+        }
+      });
+    }
   };
 
   return (
