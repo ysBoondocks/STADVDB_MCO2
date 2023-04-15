@@ -20,6 +20,7 @@ export default function DeleteMovieButton({index, table}) {
     console.log(index);
     Axios.post('http://localhost:80/api/delete', {
       id: table[index].id,
+      year: table[index].year,
     }).then((response) => {
       if(response){
         window.location.reload();

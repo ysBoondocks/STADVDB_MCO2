@@ -63,7 +63,27 @@ const controller = {
             if (err) {
                 console.log(err);
             } else {
-                //console.log(${req.body.year});
+                var year = `${req.body.id}`
+                if (year < 1980) {
+                    //NODE 2
+                    mysqlConnection2.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            //res.send(true);
+                        }
+                    });
+                }
+                else {
+                    //NODE 3
+                    mysqlConnection3.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            //res.send(true);
+                        }
+                    });
+                }
                 var data = JSON.parse(JSON.stringify(result))
                 console.log(data)
                 res.send(true);
