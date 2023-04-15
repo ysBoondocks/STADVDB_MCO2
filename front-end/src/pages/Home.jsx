@@ -24,7 +24,23 @@ export default function Home() {
       setLoading(false);
     }
 
+    async function fetchData2() {
+      const response = await axios.get("http://localhost:80/api/get2");
+      setData(response);
+      setRows2(response.data);
+      setLoading(false);
+    }
+
+    async function fetchData3() {
+      const response = await axios.get("http://localhost:80/api/get3");
+      setData(response);
+      setRows3(response.data);
+      setLoading(false);
+    }
+
     fetchData();
+    fetchData2();
+    fetchData3();
   }, []);
 
 
@@ -51,30 +67,6 @@ export default function Home() {
   ]);
 
   const [rows3, setRows3] = useState([
-    {
-      id: 1,
-      name: "Revengers",
-      year: "2233",
-      genre: "Comde",
-      director_first_name: "Jorge",
-      director_last_name: "Bush",
-    },
-    {
-      id: 2,
-      name: "Revengers",
-      year: "2233",
-      genre: "Comde",
-      director_first_name: "Jorge",
-      director_last_name: "Bush",
-    },
-    {
-      id: 3,
-      name: "Revengers",
-      year: "2233",
-      genre: "Comde",
-      director_first_name: "Jorge",
-      director_last_name: "Bush",
-    },
   ]);
 
   useEffect(() => {
