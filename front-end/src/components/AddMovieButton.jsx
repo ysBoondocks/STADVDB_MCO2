@@ -34,9 +34,9 @@ export default function AddMovieButton() {
       name: inputValues.name,
       year: inputValues.year,
     }).then((response) => {
-      if(response){
-        window.location.reload();
-      }
+      // if(response){
+      //   window.location.reload();
+      // }
     });
     console.log(inputValues);
   };

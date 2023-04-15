@@ -17,13 +17,23 @@ const controller = {
     addMovie: function (req,res){
 
 
-        mysqlConnection.query(`INSERT INTO movies (name, year) VALUES ('${req.body.name}', '${req.body.year}')`, (err, result) => {
+        mysqlConnection.query(`SELECT COUNT(*) FROM movies`, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
                 var data = JSON.parse(JSON.stringify(result))
                 console.log(data)
-                res.send(true);
+                var dataCount = data[0]['COUNT(*)']+1;
+                mysqlConnection.query(`INSERT INTO movies (id, name, year) VALUES ('${dataCount}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        var data = JSON.parse(JSON.stringify(result))
+                        console.log(data)
+                        res.send(true);
+                    }
+                });
+                
             }
         });
     },
@@ -73,8 +83,8 @@ const controller = {
 
     searchMovie: function (req,res){
 
-        console.log(req.body.name)
-        mysqlConnection.query(`SELECT * FROM movies WHERE name="${req.body.name}"`, (err, result) => {
+        console.log(req.params.name)
+        mysqlConnection.query(`SELECT * FROM movies WHERE name="${req.params.name}"`, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
