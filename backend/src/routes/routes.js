@@ -21,9 +21,9 @@ router.post(`/edit2`, controller2.editMovie);
 router.post(`/search2`, controller2.searchMovie);
 
 router.get(`/get3`, controller3.getMovies);
-// router.post(`/add3`, controller3.addMovie);
-// router.post(`/delete3`, controller3.deleteMovie);
-// router.post(`/edit3`, controller3.editMovie);
-// router.post(`/search3`, controller3.searchMovie);
+router.post(`/add3`, controller3.addMovie);
+router.post(`/delete3`, controller3.deleteMovie);
+router.post(`/edit3`, controller3.editMovie);
+router.post(`/search3`, controller3.searchMovie);
 
 module.exports = router;
