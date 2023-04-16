@@ -69,6 +69,10 @@ export default function Home() {
 
       if(response.data !== "" && response.data !== undefined && response.data !== null){
         console.log("sup im on! NODE 1 HERE");
+        setNodeStatus((prev) => ({
+          ...prev,
+          node1: true,
+        }));
       }
     }
 
@@ -78,6 +82,10 @@ export default function Home() {
       setRows2(response.data);
       if(response.data !== "" && response.data !== undefined && response.data !== null){
         console.log("sup im on! NODE 2 HERE");
+        setNodeStatus((prev) => ({
+          ...prev,
+          node2: true,
+        }));
       }
       
     }
@@ -88,6 +96,10 @@ export default function Home() {
       setRows3(response.data);
       if(response.data !== "" && response.data !== undefined && response.data !== null){
         console.log("sup im on! NODE 3 HERE");
+        setNodeStatus((prev) => ({
+          ...prev,
+          node3: true,
+        }));
       }
 
     }
