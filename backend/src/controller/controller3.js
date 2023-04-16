@@ -7,16 +7,6 @@ const helper = require('./helper');
 
 
 const controller3 = {
-    checkConnection: function (req, res) {
-        mysqlConnection3.getConnection((err, connection3) => {
-            if (err) {
-                res.send(false);
-            } else {
-                res.send(true)
-            }
-        })
-    },
-
     getMovies: function (req, res) {
         mysqlConnection3.query('SELECT * FROM movies', (err, result) => {
             if (err) {

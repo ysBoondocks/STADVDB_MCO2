@@ -4,16 +4,6 @@ const mysqlConnection3 = require('../../mysql3');
 const helper = require('./helper');
 
 const controller = {
-    checkConnection: function (req, res) {
-        mysqlConnection.getConnection((err, connection3) => {
-            if (err) {
-                res.send(false);
-            } else {
-                res.send(true)
-            }
-        })
-    },
-
     getMovies: function (req, res) {
 	//Verify Node 1,2, and 3 are all the same
          mysqlConnection.query('SELECT * FROM movies', (err, result) => {
