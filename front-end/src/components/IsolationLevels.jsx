@@ -21,7 +21,7 @@ export default function IsolationLevels({ isolationLevel, handleSetLevel }) {
           onClick={() => handleSetLevel(2)}
           class="cursor-pointer inline-block whitespace-nowrap rounded-[0.27rem] bg-blue-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-blue-700"
         >
-          Read Uncommitted
+          Read Committed
         </span>) : (<span
           onClick={() => handleSetLevel(2)}
           class="cursor-pointer ml-2 inline-block whitespace-nowrap rounded-[0.27rem] bg-gray-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-gray-700"

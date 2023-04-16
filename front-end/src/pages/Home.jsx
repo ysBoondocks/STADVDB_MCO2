@@ -18,9 +18,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isolationLevel, setisolationLevel] = useState(1);
   const [nodeStatus, setNodeStatus] = useState({
-    node1: true,
-    node2: true,
-    node3: true,
+    node1: false,
+    node2: false,
+    node3: false,
   });
 
   const [search, setSearch] = useState("");
@@ -66,18 +66,30 @@ export default function Home() {
       const response = await axios.get("http://localhost:80/api/get");
       setData(response);
       setRows1(response.data);
+
+      if(response.data !== "" && response.data !== undefined && response.data !== null){
+        console.log("sup im on! NODE 1 HERE");
+      }
     }
 
     async function fetchData2() {
       const response = await axios.get("http://localhost:80/api/get2");
       setData(response);
       setRows2(response.data);
+      if(response.data !== "" && response.data !== undefined && response.data !== null){
+        console.log("sup im on! NODE 2 HERE");
+      }
+      
     }
 
     async function fetchData3() {
       const response = await axios.get("http://localhost:80/api/get3");
       setData(response);
       setRows3(response.data);
+      if(response.data !== "" && response.data !== undefined && response.data !== null){
+        console.log("sup im on! NODE 3 HERE");
+      }
+
     }
 
     if(rows1 && rows2 && rows3){
