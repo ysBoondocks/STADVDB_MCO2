@@ -8,6 +8,7 @@ import DeleteMovieButton from "../components/DeleteMovieButton";
 import axios from "axios";
 import EditMovieButton from "../components/EditMovieButton";
 import Loading from "../components/Loading";
+import IsolationLevels from "../components/IsolationLevels";
 
 export default function Home() {
   const [node, setNode] = useState(1);
@@ -15,9 +16,10 @@ export default function Home() {
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isolationLevel, setisolationLevel] = useState(1);
   const [nodeStatus, setNodeStatus] = useState({
-    node1: true,
-    node2: true,
+    node1: false,
+    node2: false,
     node3: false,
   });
 
@@ -28,6 +30,10 @@ export default function Home() {
   const [rows2, setRows2] = useState([]);
 
   const [rows3, setRows3] = useState([]);
+
+  const handleSetLevel = (level) => {
+    setisolationLevel(level);
+  }
 
   const handleSearch = (inputSearch) => {
     setSearch(inputSearch);
@@ -60,20 +66,45 @@ export default function Home() {
       const response = await axios.get("http://localhost:80/api/get");
       setData(response);
       setRows1(response.data);
-      setLoading(false);
+
+      if(response.data !== "" && response.data !== undefined && response.data !== null){
+        console.log("sup im on! NODE 1 HERE");
+        setNodeStatus((prev) => ({
+          ...prev,
+          node1: true,
+        }));
+      }
     }
 
     async function fetchData2() {
       const response = await axios.get("http://localhost:80/api/get2");
       setData(response);
       setRows2(response.data);
-      setLoading(false);
+      if(response.data !== "" && response.data !== undefined && response.data !== null){
+        console.log("sup im on! NODE 2 HERE");
+        setNodeStatus((prev) => ({
+          ...prev,
+          node2: true,
+        }));
+      }
+      
     }
 
     async function fetchData3() {
       const response = await axios.get("http://localhost:80/api/get3");
       setData(response);
       setRows3(response.data);
+      if(response.data !== "" && response.data !== undefined && response.data !== null){
+        console.log("sup im on! NODE 3 HERE");
+        setNodeStatus((prev) => ({
+          ...prev,
+          node3: true,
+        }));
+      }
+
+    }
+
+    if(rows1 && rows2 && rows3){
       setLoading(false);
     }
 
@@ -121,52 +152,61 @@ export default function Home() {
             <div className="flex items-center justify-center">
               <Search handleSearch={handleSearch}></Search>
             </div>
-            <div className="flex justify-evenly w-48 ml-10">
-              {nodeStatus.node1 ? (
-                <>
-                  {" "}
-                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
-                    Node1
-                  </span>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
-                    Node1
-                  </span>
-                </>
-              )}
-              {nodeStatus.node2 ? (
-                <>
-                  {" "}
-                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
-                    Node2
-                  </span>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
-                    Node2
-                  </span>
-                </>
-              )}
-              {nodeStatus.node3 ? (
-                <>
-                  {" "}
-                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
-                    Node3
-                  </span>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
-                    Node3
-                  </span>
-                </>
-              )}
+            <div className="flex justify-evenly">
+              {/* NODE STATUS */}
+              <div className="flex">
+                <p className="mr-5 font-bold text-indigo-500">Node Status:</p>
+                <div>
+                  {nodeStatus.node1 ? (
+                    <>
+                      {" "}
+                      <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
+                        Node1
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
+                        Node1
+                      </span>
+                    </>
+                  )}
+                  {nodeStatus.node2 ? (
+                    <>
+                      {" "}
+                      <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
+                        Node2
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
+                        Node2
+                      </span>
+                    </>
+                  )}
+                  {nodeStatus.node3 ? (
+                    <>
+                      {" "}
+                      <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-green-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-green-700">
+                        Node3
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <span class="inline-block whitespace-nowrap rounded-[0.27rem] bg-red-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-red-700">
+                        Node3
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* ISOLATION LEVELS */}
+              <IsolationLevels isolationLevel={isolationLevel} handleSetLevel={handleSetLevel}/>
             </div>
           </div>
           {/* END OF SORTING */}
@@ -231,10 +271,11 @@ export default function Home() {
                 </div>
               ) : (
                 <>
-                  <AddMovieButton className="bg-indigo-500"
+                  <AddMovieButton
+                    className="bg-indigo-500"
                     node={node}
-                    table={tableToShow}>
-                  </AddMovieButton>
+                    table={tableToShow}
+                  ></AddMovieButton>
                 </>
               )}
             </div>
