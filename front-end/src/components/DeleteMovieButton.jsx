@@ -21,6 +21,7 @@ export default function DeleteMovieButton({index, table, node}) {
     if (node===1){
           Axios.post('http://localhost:80/api/delete', {
           id: table[index].id,
+          name: table[index].name,
           year: table[index].year,
         }).then((response) => {
           if(response){
@@ -30,6 +31,7 @@ export default function DeleteMovieButton({index, table, node}) {
     } else if (node===2){
       Axios.post('http://localhost:80/api/delete2', {
         id: table[index].id,
+        name: table[index].name,
         year: table[index].year,
       }).then((response) => {
         if(response){
@@ -39,6 +41,7 @@ export default function DeleteMovieButton({index, table, node}) {
     } else if (node===3) {
       Axios.post('http://localhost:80/api/delete3', {
         id: table[index].id,
+        name: table[index].name,
         year: table[index].year,
       }).then((response) => {
         if(response){

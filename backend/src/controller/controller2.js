@@ -27,11 +27,14 @@ const controller2 = {
         });
     },
 
+    checkLogs: function (req, res) {
+    },
+
     addMovie: function (req,res){
         mysqlConnection2.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
             if (err) {
                 console.log(err);
-                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "add");  
+                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "add", -1);  
             } else {
                 var existing = JSON.parse(JSON.stringify(result))
                 console.log(existing.length);
@@ -96,7 +99,7 @@ const controller2 = {
         mysqlConnection2.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
             if (err) {
                 console.log(err);
-                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "del");  
+                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "del", `${req.body.id}`);  
             } else {
                 mysqlConnection1.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
                     if (err) {
@@ -124,7 +127,7 @@ const controller2 = {
             mysqlConnection2.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
                     if (err){
                         console.log(err)
-                        helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "edit");  
+                        helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "edit", `${req.body.id}`);  
                     } else {
                         var existing = JSON.parse(JSON.stringify(result))
                         console.log(existing.length);
@@ -158,7 +161,7 @@ const controller2 = {
             mysqlConnection3.query(`INSERT INTO movies (id, name, year) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
                 if (err) {
                     console.log(err);
-                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit");  
+                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit", `${req.body.id}`);  
                 } else {
                     //EDIT TO NODE 1
                     mysqlConnection1.query(`UPDATE movies SET name = "${req.body.name}", year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {

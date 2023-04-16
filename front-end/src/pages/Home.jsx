@@ -62,6 +62,23 @@ export default function Home() {
   }, [search]);
 
   useEffect(() => {
+    //GET THE LOGS
+    async function getLogs() {
+      await axios.get("http://localhost:80/api/checkLogs");
+    }
+    async function getLogs2() {
+      await axios.get("http://localhost:80/api/checkLogs2");
+    }
+    async function getLogs3() {
+      await axios.get("http://localhost:80/api/checkLogs3");
+    }
+
+    //CALL GET LOGS
+    getLogs();
+    getLogs2();
+    getLogs3();
+
+    //MAKE THESE WAIT FOR THE LOGS
     async function fetchData() {
       const response = await axios.get("http://localhost:80/api/get");
       setData(response);

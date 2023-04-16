@@ -29,11 +29,14 @@ const controller3 = {
         });
     },
 
+    checkLogs: function (req, res) {
+    },
+
     addMovie: function (req,res){
         mysqlConnection3.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
             if (err) {
                 console.log(err);
-                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "add");  
+                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "add", -1);  
             } else {
                 var existing = JSON.parse(JSON.stringify(result))
                 console.log(existing.length);
@@ -85,41 +88,23 @@ const controller3 = {
     },
 
     deleteMovie: function (req,res){
-
-        mysqlConnection1.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
+        mysqlConnection3.query(`DELETE FROM movies WHERE id=${id}`, (err, result) => {
             if (err) {
-                console.log(err);
-                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "del");  
+                helper.addQueryToLog(req, res, connection1, connection2, 3, "del", `${id}`)
             } else {
-                var year = `${req.body.id}`
-                if (year < 1980) {
-                    //NODE 2
-                    mysqlConnection2.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            //res.send(true);
-                        }
-                    });
-                }
-                else {
-                    //NODE 3
-                    mysqlConnection3.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            //res.send(true);
-                        }
-                    });
-                }
-                var data = JSON.parse(JSON.stringify(result))
-                console.log(data)
-                res.send(true);
+                mysqlConnection.query(`DELETE FROM movies WHERE id=${id}`, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                       
+                    } else {
+                        //res.send(true);
+                    }
+                });
             }
+            return 0;
         });
     },
-
-    
+ 
     editMovie: function (req,res){
 
         console.log("reqname",req.body.name);
@@ -131,7 +116,7 @@ const controller3 = {
             mysqlConnection3.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
                     if (err){
                         console.log(err)
-                        helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit");  
+                        helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit", `${req.body.id}`);  
                     } else {
                         var existing = JSON.parse(JSON.stringify(result))
                         console.log(existing.length);
@@ -165,7 +150,7 @@ const controller3 = {
             mysqlConnection2.query(`INSERT INTO movies (id, name, year) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
                 if (err) {
                     console.log(err);
-                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit");  
+                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit", `${req.body.id}`);  
                 } else {
                     //EDIT TO NODE 1
                     mysqlConnection1.query(`UPDATE movies SET name = "${req.body.name}", year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
