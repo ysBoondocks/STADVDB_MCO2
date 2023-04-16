@@ -1,11 +1,11 @@
 const mysqlConnection = require('../../mysql');
 const mysqlConnection2 = require('../../mysql2');
 const mysqlConnection3 = require('../../mysql3');
+const helper = require('./helper');
 
 const controller = {
-
     getMovies: function (req, res) {
-        var data;
+	//Verify Node 1,2, and 3 are all the same
          mysqlConnection.query('SELECT * FROM movies', (err, result) => {
             if (err) {
                 console.log(err);
@@ -39,8 +39,15 @@ const controller = {
     addMovie: function (req,res){
         mysqlConnection.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
             if (err) {
-                console.log(err);
-            } else {
+                //console.log(err);
+                //If Offline save to DB that is alive
+                //Make sure its not in DB
+                //Check Node 2
+                console.log("ADD NODE 1 OFFLINE")
+                helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add");    
+            } 
+            //NODE 1 IS ONLINE
+            else {
                 var existing = JSON.parse(JSON.stringify(result))
                 console.log(existing.length);
                 if (existing.length == 0) {
@@ -94,6 +101,8 @@ const controller = {
         mysqlConnection.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
             if (err) {
                 console.log(err);
+                console.log("DEL NODE 1 OFFLINE")
+                helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "del");   
             } else {
                 var year = `${req.body.id}`
                 if (year < 1980) {
@@ -132,6 +141,8 @@ const controller = {
             mysqlConnection.query(`UPDATE movies SET name = "${req.body.name}" WHERE id=${req.body.id}`, (err, result) => {
                 if (err) {
                     console.log(err);
+                    console.log("EDIT NODE 1 OFFLINE")
+                    helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "edit");   
                 } else {
                     if (req.body.year < 1980) {
                         mysqlConnection2.query(`UPDATE movies SET name = "${req.body.name}" WHERE id=${req.body.id}`, (err, result) => {
@@ -154,6 +165,7 @@ const controller = {
             mysqlConnection.query(`UPDATE movies SET year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
                 if (err) {
                     console.log(err);
+                    helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "edit");  
                 } else {
                     if (req.body.year < 1980) {
                         mysqlConnection2.query(`UPDATE movies SET year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
@@ -178,7 +190,6 @@ const controller = {
     },
 
     searchMovie: function (req,res){
-
         console.log(req.params.name)
         mysqlConnection.query(`SELECT * FROM movies WHERE name="${req.params.name}"`, (err, result) => {
             if (err) {
