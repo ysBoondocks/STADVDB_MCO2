@@ -33,7 +33,8 @@ const controller3 = {
         mysqlConnection3.query('SELECT * FROM logs', (err, result) => {
             if (err){
                 console.log("NODE 1 IS STILL DOWN");
-            }
+            } else {
+                
             let data;
             if (result)
                 data = JSON.parse(JSON.stringify(result))
@@ -108,6 +109,7 @@ const controller3 = {
             }
 
             res.send(data);
+            }
         })
     },
 
