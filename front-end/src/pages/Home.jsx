@@ -39,6 +39,10 @@ export default function Home() {
     setSearch(inputSearch);
   };
 
+  useEffect(()=>{
+    console.log('changed')
+  },[isolationLevel])
+
   useEffect(() => {
     async function searchData() {
       const response = await axios.get(
@@ -122,16 +126,12 @@ export default function Home() {
 
     }
 
-    if(rows1 && rows2 && rows3){
-      setLoading(false);
-    }
-
     if (search === "") {
       fetchData();
       fetchData2();
       fetchData3();
     }
-  }, [search]);
+  }, []);
 
   const handleSetNode = (node) => {
     setNode(node);
@@ -153,6 +153,10 @@ export default function Home() {
       setTableToShow(rows2);
     } else {
       setTableToShow(rows3);
+    }
+
+    if(rows1.length > 0 && rows2.length > 0 && rows3.length > 0){
+      setLoading(false);
     }
   }, [node, rows1, rows2, rows3]);
 
