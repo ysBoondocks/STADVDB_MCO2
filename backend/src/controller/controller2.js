@@ -26,7 +26,7 @@ const controller2 = {
                 //console.log(data)
                 data = data.concat({flag: true});
                 res.send(data);
-                console.log(data[data.length-1].flag);
+                console.log("node2 working",data[data.length-1].flag);
             }
         });
     },
