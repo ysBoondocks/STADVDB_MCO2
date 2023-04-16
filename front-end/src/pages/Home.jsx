@@ -131,7 +131,7 @@ export default function Home() {
       fetchData2();
       fetchData3();
     }
-  }, []);
+  }, [search]);
 
   const handleSetNode = (node) => {
     setNode(node);
@@ -228,7 +228,7 @@ export default function Home() {
               </div>
 
               {/* ISOLATION LEVELS */}
-              <IsolationLevels isolationLevel={isolationLevel} handleSetLevel={handleSetLevel}/>
+              {/* <IsolationLevels isolationLevel={isolationLevel} handleSetLevel={handleSetLevel}/> */}
             </div>
           </div>
           {/* END OF SORTING */}
