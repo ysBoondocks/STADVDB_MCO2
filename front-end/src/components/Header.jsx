@@ -3,7 +3,7 @@ import React from 'react'
 export default function Header() {
 
   return (
-    <div className="pb-10" style={{ fontFamily: '"Lato", sans-serif' }}>
+    <div className="pb-8" style={{ fontFamily: '"Lato", sans-serif' }}>
       {/* Code block starts */}
       <dh-component>
         <section className="max-w-8xl mx-auto container bg-white pt-4">
