@@ -30,6 +30,85 @@ const controller3 = {
     },
 
     checkLogs: function (req, res) {
+        mysqlConnection3.query('SELECT * FROM logs', (err, result) => {
+            if (err){
+                console.log("NODE 1 IS STILL DOWN");
+            }
+            let data;
+            if (result)
+                data = JSON.parse(JSON.stringify(result))
+
+            let deleteLogs = []
+
+            console.log(data.length)
+
+            //Loop through logs in the node
+            for (let i = 0; i < data.length; i++) {
+                JSONdata = JSON.parse(data[i].description)
+                console.log(JSONdata)
+
+                let func = JSONdata.function;
+                let node = JSONdata.node;
+                let name = JSONdata.name;
+                let year = JSONdata.year;
+                let id   = JSONdata.id
+                let Incomplete = -1;
+
+                if (node == 1) {
+                    if (func === 'add')
+                        Incomplete = helper.addMovieFromLogsNode1(name, year)
+                    else if (func === 'del')
+                        Incomplete = helper.delMovieFromLogsNode1(year, id);
+                    else if (func === 'edit')
+                        Incomplete = helper.editMovieFromLogsNode1(name, year, id);
+                }
+                else if (node == 2) {
+                    if (func === 'add')
+                        Incomplete = helper.addMovieFromLogsNode2(name, year)
+                    else if (func === 'del')
+                        Incomplete = helper.delMovieFromLogsNode2(year, id);
+                    else if (func === 'edit')
+                        Incomplete = helper.editMovieFromLogsNode2(name, year, id);
+                }
+                else if (node == 3) {
+                    if (func === 'add')
+                        Incomplete = helper.addMovieFromLogsNode3(name, year)
+                    else if (func === 'del')
+                        Incomplete = helper.delMovieFromLogsNode3(year, id);
+                    else if (func === 'edit')
+                        Incomplete = helper.editMovieFromLogsNode3(name, year, id);
+                }
+
+                if (Incomplete == 0) {
+                    //DELETE LOG
+                    deleteLogs.push(data[i])
+                }
+                //Incomplete -1 = NODE STILL CLOSED
+            }
+
+            if (deleteLogs.length > 0) {
+                for(let i = 0; i < deleteLogs.length; i++) {
+                    let JSONLog = JSON.parse(deleteLogs[i].description)
+                    let func = JSONLog.function;
+                    let node = JSONLog.node;
+                    let name = JSONLog.name;
+                    let year = JSONLog.year;
+                    let id   = JSONLog.id
+    
+                    let query_data ='{"function":' + '"' + `${func}`+ '"' + ', "node":' + `${node}` + ', "id":' + `${id}` + ', "name":'+ '"' + `${name}`+ '"' +', "year":' + `${year}`+'}'
+                    
+                    console.log("TEST")
+                    console.log(query_data)
+                    mysqlConnection3.query(`DELETE FROM logs l WHERE l.description = '${query_data}'`, (err, result) => {
+                        if (err) {
+                        }
+                        console.log("DELETED")
+                    })
+                }
+            }
+
+            res.send(data);
+        })
     },
 
     addMovie: function (req,res){

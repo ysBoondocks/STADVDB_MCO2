@@ -116,7 +116,6 @@ const controller = {
 
             res.send(data);
         })
-
     },
 
     addMovie: function (req,res){
