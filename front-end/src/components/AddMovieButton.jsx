@@ -14,6 +14,7 @@ import Axios from "axios";
 export default function AddMovieButton({ node, table }) {
   const [open, setOpen] = React.useState(false);
   const [existing, setExisting] = React.useState(false);
+  const [disable, setDisable] = React.useState(true);
   const handleOpen = () => setOpen((cur) => !cur);
 
   const [inputValues, setInputValues] = useState({
@@ -33,6 +34,24 @@ export default function AddMovieButton({ node, table }) {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if(name === 'name'){
+      if(value === '' || inputValues.year === ""){
+        console.log('error 1')
+        setDisable(true)
+      }else{
+        setDisable(false)
+      }
+    }else{
+      if(value === '' || inputValues.name === ""){
+        console.log('error 2')
+        setDisable(true)
+      }else{
+        setDisable(false)
+      }
+    }
+
+
     setInputValues((prevInputValues) => ({
       ...prevInputValues,
       [name]: value,
@@ -153,7 +172,7 @@ export default function AddMovieButton({ node, table }) {
                 </form>
               </CardBody>
               <CardFooter className="pt-5 flex justify-evenly items-center">
-                <Button onClick={handleSubmit} className="w-3/5 bg-indigo-500">
+                <Button onClick={handleSubmit} className="w-3/5 bg-indigo-500" disabled={disable}>
                   Add Movie
                 </Button>
                 <Button onClick={handleCancel} className="bg-red-400">
