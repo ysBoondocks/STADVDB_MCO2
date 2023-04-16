@@ -5,6 +5,16 @@ const mysqlConnection3 = require('../../mysql3');    //NODE 3
 const helper = require('./helper');
 
 const controller2 = {
+    checkConnection: function (req, res) {
+        mysqlConnection2.getConnection((err, connection3) => {
+            if (err) {
+                res.send(false);
+            } else {
+                res.send(true)
+            }
+        })
+    },
+
     getMovies: function (req, res) {
         mysqlConnection2.query('SELECT * FROM movies', (err, result) => {
             if (err) {
@@ -14,7 +24,7 @@ const controller2 = {
                         if (err) {
                             console.log(err);
                         } else {
-                            data = JSON.parse(JSON.stringify(result))
+                            var data = JSON.parse(JSON.stringify(result))
                             //console.log(data)
                             res.send(data)
                         }
