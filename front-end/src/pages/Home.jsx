@@ -84,7 +84,7 @@ export default function Home() {
       setData(response);
       setRows1(response.data);
 
-      if(response.data !== "" && response.data !== undefined && response.data !== null){
+      if(response.data[data.length-1].flag){
         console.log("sup im on! NODE 1 HERE");
         setNodeStatus((prev) => ({
           ...prev,
@@ -97,7 +97,7 @@ export default function Home() {
       const response = await axios.get("http://localhost:80/api/get2");
       setData(response);
       setRows2(response.data);
-      if(response.data !== "" && response.data !== undefined && response.data !== null){
+      if(response.data[data.length-1].flag){
         console.log("sup im on! NODE 2 HERE");
         setNodeStatus((prev) => ({
           ...prev,
@@ -111,7 +111,7 @@ export default function Home() {
       const response = await axios.get("http://localhost:80/api/get3");
       setData(response);
       setRows3(response.data);
-      if(response.data !== "" && response.data !== undefined && response.data !== null){
+      if(response.data[data.length-1].flag){
         console.log("sup im on! NODE 3 HERE");
         setNodeStatus((prev) => ({
           ...prev,

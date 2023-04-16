@@ -18,13 +18,17 @@ const controller3 = {
                     } else {
                         data = JSON.parse(JSON.stringify(result))
                         //console.log(data)
-                        res.send(data)
+                        data = data.concat({flag: false});
+                        res.send(data);
+                        console.log(data[data.length-1].flag);
                     }
                 });
             } else {
                 var data = JSON.parse(JSON.stringify(result))
                 //console.log(data)
-                res.send(data)
+                data = data.concat({flag: true});
+                res.send(data);
+                console.log(data[data.length-1].flag);
             }
         });
     },
