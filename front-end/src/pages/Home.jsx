@@ -122,9 +122,6 @@ export default function Home() {
 
     }
 
-    if(rows1 && rows2 && rows3){
-      setLoading(false);
-    }
 
     if (search === "") {
       fetchData();
@@ -154,6 +151,10 @@ export default function Home() {
     } else {
       setTableToShow(rows3);
     }
+    if(rows1.length > 0 && rows2.length > 0 && rows3.length > 0){
+      setLoading(false);
+    }
+    
   }, [node, rows1, rows2, rows3]);
 
   return (
