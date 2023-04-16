@@ -16,11 +16,11 @@ export default function Home() {
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [isolationLevel, setisolationLevel] = useState(2);
+  const [isolationLevel, setisolationLevel] = useState(1);
   const [nodeStatus, setNodeStatus] = useState({
     node1: true,
     node2: true,
-    node3: false,
+    node3: true,
   });
 
   const [search, setSearch] = useState("");
@@ -66,20 +66,21 @@ export default function Home() {
       const response = await axios.get("http://localhost:80/api/get");
       setData(response);
       setRows1(response.data);
-      setLoading(false);
     }
 
     async function fetchData2() {
       const response = await axios.get("http://localhost:80/api/get2");
       setData(response);
       setRows2(response.data);
-      setLoading(false);
     }
 
     async function fetchData3() {
       const response = await axios.get("http://localhost:80/api/get3");
       setData(response);
       setRows3(response.data);
+    }
+
+    if(rows1 && rows2 && rows3){
       setLoading(false);
     }
 
