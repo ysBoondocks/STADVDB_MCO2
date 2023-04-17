@@ -29,4 +29,5 @@ router.post(`/delete3`, controller3.deleteMovie);
 router.post(`/edit3`, controller3.editMovie);
 router.post(`/search3`, controller3.searchMovie);
 
+router.post(`/isolationlevel/:isolation`, controller.setIsolationLevel);
 module.exports = router;

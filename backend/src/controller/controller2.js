@@ -34,85 +34,47 @@ const controller2 = {
     checkLogs: function (req, res) {
         mysqlConnection2.query('SELECT * FROM logs', (err, result) => {
             if (err){
-                console.log("NODE 1 IS STILL DOWN");
+               console.log("NODE 2 IS STILL DOWN");
             } else {
-                let data;
-                if (result)
-                    data = JSON.parse(JSON.stringify(result))
-    
-                let deleteLogs = []
-    
-                console.log(data.length)
-    
-                //Loop through logs in the node
-                for (let i = 0; i < data.length; i++) {
-                    JSONdata = JSON.parse(data[i].description)
-                    console.log(JSONdata)
-    
-                    let func = JSONdata.function;
-                    let node = JSONdata.node;
-                    let name = JSONdata.name;
-                    let year = JSONdata.year;
-                    let id   = JSONdata.id
-                    let Incomplete = -1;
-    
-                    if (node == 1) {
-                        if (func === 'add')
-                            Incomplete = helper.addMovieFromLogsNode1(name, year)
-                        else if (func === 'del')
-                            Incomplete = helper.delMovieFromLogsNode1(year, id);
-                        else if (func === 'edit')
-                            Incomplete = helper.editMovieFromLogsNode1(name, year, id);
-                    }
-                    else if (node == 2) {
-                        if (func === 'add')
-                            Incomplete = helper.addMovieFromLogsNode2(name, year)
-                        else if (func === 'del')
-                            Incomplete = helper.delMovieFromLogsNode2(year, id);
-                        else if (func === 'edit')
-                            Incomplete = helper.editMovieFromLogsNode2(name, year, id);
-                    }
-                    else if (node == 3) {
-                        if (func === 'add')
-                            Incomplete = helper.addMovieFromLogsNode3(name, year)
-                        else if (func === 'del')
-                            Incomplete = helper.delMovieFromLogsNode3(year, id);
-                        else if (func === 'edit')
-                            Incomplete = helper.editMovieFromLogsNode3(name, year, id);
-                    }
-    
-                    if (Incomplete == 0) {
-                        //DELETE LOG
-                        deleteLogs.push(data[i])
-                    }
-                    //Incomplete -1 = NODE STILL CLOSED
-                }
-    
-                if (deleteLogs.length > 0) {
-                    for(let i = 0; i < deleteLogs.length; i++) {
-                        let JSONLog = JSON.parse(deleteLogs[i].description)
-                        let func = JSONLog.function;
-                        let node = JSONLog.node;
-                        let name = JSONLog.name;
-                        let year = JSONLog.year;
-                        let id   = JSONLog.id
-        
-                        let query_data ='{"function":' + '"' + `${func}`+ '"' + ', "node":' + `${node}` + ', "id":' + `${id}` + ', "name":'+ '"' + `${name}`+ '"' +', "year":' + `${year}`+'}'
-                        
-                        console.log("TEST")
-                        console.log(query_data)
-                        mysqlConnection2.query(`DELETE FROM logs l WHERE l.description = '${query_data}'`, (err, result) => {
-                            if (err) {
-                            }
-                            console.log("DELETED")
-                        })
-                    }
-                }
-    
-                res.send(data);
-            }
+                var hasLogs = JSON.parse(JSON.stringify(result))
+                if (hasLogs.length != 0) {
+                    let JSONlog = JSON.parse(hasLogs[0].description)
+                    if (JSONlog.down === 'yes') {
+                        console.log(JSONlog)
 
-        })
+                        switch (JSONlog.node) {
+                            //Node 1 was down
+                            case 1:
+                                mysqlConnection1.getConnection((err, connection) => {
+                                    if (err) {
+                                    } else {
+                                        helper.node1DOWN(req, res, mysqlConnection2);
+                                    }
+                                }); 
+                            break;
+                            //Node 2 was down
+                            case 2:
+                                mysqlConnection2.getConnection((err, connection) => {
+                                    if (err) {
+                                    } else {
+                                        helper.node2DOWN(req, res, mysqlConnection2);
+                                    }
+                                });
+                            break;
+                            //Node 3 was down
+                            case 3:
+                                mysqlConnection3.getConnection((err, connection) => {
+                                    if (err) {
+                                    } else {
+                                        helper.node3DOWN(req, res, mysqlConnection2);
+                                    }
+                                });
+                            break;
+                        }
+                    }
+                }
+            }
+        });
     },
 
     addMovie: function (req,res){
@@ -120,11 +82,12 @@ const controller2 = {
             if (err) {
                 console.log(err);
                 helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "add", -1);  
+                addMovieServerDown(req, res)
             } else {
                 var existing = JSON.parse(JSON.stringify(result))
                 console.log(existing.length);
                 if (existing.length == 0) {
-                    mysqlConnection2.query(`SELECT m.id FROM movies m ORDER BY m.id DESC LIMIT 1`, (err, result) => {
+                    mysqlConnection1.query(`SELECT m.id FROM movies m ORDER BY m.id DESC LIMIT 1`, (err, result) => {
                         if (err) {
                             console.log(err);
                         } else {
@@ -185,6 +148,7 @@ const controller2 = {
             if (err) {
                 console.log(err);
                 helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "del", `${req.body.id}`);  
+                delMovieServerDown(req, res)
             } else {
                 mysqlConnection1.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
                     if (err) {
@@ -213,6 +177,7 @@ const controller2 = {
                     if (err){
                         console.log(err)
                         helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "edit", `${req.body.id}`);  
+                        success = editMovieServerDown(req, res)
                     } else {
                         var existing = JSON.parse(JSON.stringify(result))
                         console.log(existing.length);
@@ -246,7 +211,8 @@ const controller2 = {
             mysqlConnection3.query(`INSERT INTO movies (id, name, year) VALUES ('${req.body.id}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
                 if (err) {
                     console.log(err);
-                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit", `${req.body.id}`);  
+                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit", `${req.body.id}`);
+                    success = editMovieServerDown(req, res) 
                 } else {
                     //EDIT TO NODE 1
                     mysqlConnection1.query(`UPDATE movies SET name = "${req.body.name}", year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
@@ -281,6 +247,69 @@ const controller2 = {
             }
         });
     }
+}
+
+function addMovieServerDown (req, res) {
+        //Add to Node 1
+        mysqlConnection1.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = ${req.body.year}`, (err, result) => {
+            if (err){
+                console.log(err)
+            } else {
+                var existing = JSON.parse(JSON.stringify(result))
+                if (existing.length == 0) {
+                    //Does not exist in Database
+                    //Get last ID of node 1
+                    mysqlConnection1.query(`SELECT m.id FROM movies m ORDER BY m.id DESC LIMIT 1`, (err, result) => {
+                        if (err){
+                            console.log("error in add server down function in node 2")
+                        }
+                        else {
+                            var data = JSON.parse(JSON.stringify(result))
+                            var MaxID = data[0]['id']+1;
+
+                            mysqlConnection1.query(`INSERT INTO movies (id, name, year) VALUES ('${MaxID}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    var result = JSON.parse(JSON.stringify(result))
+                                    //console.log(data)
+                                    res.send(true);
+                                }
+                            });
+                        }
+                    })
+                }
+                else {
+                    console.log("MOVIE IS ALREADY IN DATABASE")
+                    res.send(false)
+                }
+            }
+        })
+}
+
+function delMovieServerDown (req, res) {
+    //Delete From Node 1
+    mysqlConnection1.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
+        if (err) {
+            console.log(err); 
+        } else {
+            var data = JSON.parse(JSON.stringify(result))
+            console.log(data)
+            res.send(true);
+        }
+    });
+}
+
+function editMovieServerDown (req, res) {
+    //Node 2 down so edit Node 1
+    mysqlConnection1.query(`UPDATE movies SET name = "${req.body.name}", year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
+        if (err){
+            console.log("ERROR IN EDIT NODE 2 WHEN SERVER IS DOWN")
+        }
+        else {
+            return true;
+        }
+    });
 }
 
 module.exports = controller2;

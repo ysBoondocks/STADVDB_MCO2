@@ -32,7 +32,12 @@ export default function Home() {
   const [rows3, setRows3] = useState([]);
 
   const handleSetLevel = (level) => {
+
+    
+    console.log("hehe",level);
     setisolationLevel(level);
+
+    
   }
 
   const handleSearch = (inputSearch) => {
@@ -82,6 +87,12 @@ export default function Home() {
     getLogs2();
     getLogs3();
 
+    async function setIsolation() {
+      const response = await axios.get(`http://localhost:80/api/isolationlevel/${isolationLevel}`);
+      console.log("HELLO",response);
+    }
+    setIsolation();
+
     //MAKE THESE WAIT FOR THE LOGS
     async function fetchData() {
       const response = await axios.get("http://localhost:80/api/get");
@@ -124,6 +135,10 @@ export default function Home() {
         }));
       }
 
+    }
+
+    if(rows1 && rows2 && rows3){
+      setLoading(false);
     }
 
     if (search === "") {
