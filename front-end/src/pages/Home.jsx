@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useInterval } from 'react-use';
 import Table from "../components/Table";
 import AddMovieButton from "../components/AddMovieButton";
 import Header from "../components/Header";
@@ -38,6 +39,10 @@ export default function Home() {
   const handleSearch = (inputSearch) => {
     setSearch(inputSearch);
   };
+
+  // useInterval(() => {
+  //   window.location.reload()
+  // }, 60000);
 
   useEffect(()=>{
     console.log('at useffect of isolation',isolationLevel)
