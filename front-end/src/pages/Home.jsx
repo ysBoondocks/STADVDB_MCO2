@@ -32,17 +32,36 @@ export default function Home() {
   const [rows3, setRows3] = useState([]);
 
   const handleSetLevel = (level) => {
-
-    
-    console.log("hehe",level);
     setisolationLevel(level);
-
-    
   }
 
   const handleSearch = (inputSearch) => {
     setSearch(inputSearch);
   };
+
+  // useEffect(()=>{
+  //   console.log('at useffect of isolation',isolationLevel)
+  //   async function setIsolation() {
+  //     const response = await axios.get(`http://localhost:80/api/isolationlevel/${isolationLevel}`);
+  //     console.log("HELLO",response);
+  //     switch(response.data){
+  //       case '1':
+  //         setisolationLevel(1)
+  //         break;
+  //       case '2':
+  //         setisolationLevel(2)
+  //         break;
+  //       case '3':
+  //         setisolationLevel(3)
+  //         break;
+  //       case '4':
+  //         setisolationLevel(4)
+  //         break;
+  //       default:break;
+  //     }
+  //   }
+  //   setIsolation();
+  // },[isolationLevel])
 
   useEffect(() => {
     async function searchData() {
@@ -85,7 +104,22 @@ export default function Home() {
 
     async function setIsolation() {
       const response = await axios.get(`http://localhost:80/api/isolationlevel/${isolationLevel}`);
-      console.log("HELLO",response);
+      console.log("at the main effect",response);
+      switch(response.data){
+        case '1':
+          setisolationLevel(1)
+          break;
+        case '2':
+          setisolationLevel(2)
+          break;
+        case '3':
+          setisolationLevel(3)
+          break;
+        case '4':
+          setisolationLevel(4)
+          break;
+        default:break;
+      }
     }
     setIsolation();
 
@@ -139,7 +173,7 @@ export default function Home() {
       fetchData2();
       fetchData3();
     }
-  }, [search]);
+  }, [search,isolationLevel]);
 
   const handleSetNode = (node) => {
     setNode(node);

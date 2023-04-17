@@ -7,34 +7,35 @@ const helper = require('./helper');
 const controller = {
 
     setIsolationLevel: function(req,res){
-        // switch(req.params.isolation){
-        //     case 1:
-        //         mysqlConnection.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITABLE`);
-        //         mysqlConnection2.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITABLE`);
-        //         mysqlConnection3.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITABLE`);
-        //         break;
+        switch(req.params.isolation){
+            case '1':
+                mysqlConnection.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`);
+                mysqlConnection2.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`);
+                mysqlConnection3.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`);
+                break;
 
-        //     case 2:
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITABLE`);
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITABLE`);
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITABLE`);
-        //         break;
+            case '2':
+                mysqlConnection.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED`);
+                mysqlConnection2.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED`);
+                mysqlConnection3.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED`);
+                break;
 
-        //     case 3:
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
-        //         break;
+            case '3':
+                mysqlConnection.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
+                mysqlConnection2.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
+                mysqlConnection3.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
+                break;
 
-        //     case 4:
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
-        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
-        //         break;
-
-        // }
-        console.log("hello",req.params.isolation);
-        res.send(`Isolation Level set to ${req.params.isolation}`);
+            case '4':
+                mysqlConnection.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
+                mysqlConnection2.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
+                mysqlConnection3.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
+                break;
+            default: break;
+        }
+        // console.log("hello",req.params.isolation);
+        res.send(req.params.isolation);
+        // res.send("hello");
     },
 
     getMovies: function (req, res) {
