@@ -162,8 +162,8 @@ const controller3 = {
                         //res.send(true);
                     }
                 });
+                res.send(true);
             }
-            res.send(true);
         });
     },
 
