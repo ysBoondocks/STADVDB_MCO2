@@ -151,7 +151,7 @@ const controller3 = {
     deleteMovie: function (req,res){
         mysqlConnection3.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
             if (err) {
-                helper.addQueryToLog(req, res, connection1, connection2, 3, "del", `${req.body.id}`)
+                helper.addQueryToLog(req, res, mysqlConnection1, mysqlConnection2, 3, "del", `${req.body.id}`)
                 delMovieServerDown(req, res)
             } else {
                 mysqlConnection1.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
