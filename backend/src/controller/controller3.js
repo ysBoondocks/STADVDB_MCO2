@@ -92,6 +92,7 @@ const controller3 = {
                     mysqlConnection1.query(`SELECT m.id FROM movies m ORDER BY m.id DESC LIMIT 1`, (err, result) => {
                         if (err) {
                             console.log(err);
+                            helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add", -1); 
                         } else {
                             var data = JSON.parse(JSON.stringify(result))
                             var MaxID = data[0]['id']+1;
@@ -106,6 +107,7 @@ const controller3 = {
                                         mysqlConnection1.query(`INSERT INTO movies (id, name, year) VALUES ('${MaxID}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
                                             if (err) {
                                                 console.log(err);
+                                                helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add", -1); 
                                             } else {
                                             }
                                         });
@@ -124,6 +126,7 @@ const controller3 = {
                                         mysqlConnection1.query(`INSERT INTO movies (id, name, year) VALUES ('${MaxID}', '${req.body.name}', '${req.body.year}')`, (err, result) => {
                                             if (err) {
                                                 console.log(err);
+                                                helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add", -1); 
                                             } else {
                                             }
                                         });
@@ -154,7 +157,7 @@ const controller3 = {
                 mysqlConnection1.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
                     if (err) {
                         console.log(err);
-                       
+                        helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add", -1); 
                     } else {
                         //res.send(true);
                     }
@@ -181,11 +184,13 @@ const controller3 = {
                     mysqlConnection1.query(`UPDATE movies SET name = "${req.body.name}", year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
                         if (err) {
                             console.log(err);
+                            helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add", -1); 
                         } else {
                             //DELETE FROM NODE 3
                             mysqlConnection3.query(`DELETE FROM movies WHERE id=${req.body.id}`, (err, result) => {
                                 if (err) {
                                     console.log(err);
+                                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "add", -1); 
                                 }
                             });
                         }
@@ -219,6 +224,7 @@ const controller3 = {
                                     mysqlConnection1.query(`UPDATE movies SET name = "${req.body.name}", year = "${req.body.year}" WHERE id=${req.body.id}`, (err, result) => {
                                         if (err) {
                                             console.log(err);
+                                            helper.addQueryToLog (req, res, mysqlConnection2, mysqlConnection3, 1, "add", -1); 
                                         } else {
                                         }
                                     });
