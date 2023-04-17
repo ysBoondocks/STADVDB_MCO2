@@ -51,46 +51,53 @@ export default function Table({
                     <tbody>
                       {}
                       {table.map((row, index) => {
-                        return (
-                          <tr
-                            class="border-b dark:border-neutral-500"
-                            key={index}
-                          >
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">
-                              {/* CHECKBOX FOR EDIT AND DELETE */}
-                              {index === currChecked && isChecked ? (
-                                <Checkbox
-                                  checked={true}
-                                  onChange={(event) =>
-                                    handleCheckboxChange(event, index)
-                                  }
-                                />
-                              ) : (
-                                <Checkbox
-                                  checked={false}
-                                  onChange={(event) =>
-                                    handleCheckboxChange(event, index)
-                                  }
-                                />
-                              )}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">
-                              {row.id}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">
-                              {row.name}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">
-                              {row.year}
-                            </td>
-                            {/* <td class="whitespace-nowrap px-6 py-4">
-                                  Cell
-                                </td>
-                                <td class="whitespace-nowrap px-6 py-4">
-                                  Cell
-                                </td> */}
-                          </tr>
-                        );
+                        if(row.flag){
+                          return (<></>)
+                        }
+                        else{
+                          return (
+                            <tr
+                              class="border-b dark:border-neutral-500"
+                              key={index}
+                            >
+                              <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                {/* CHECKBOX FOR EDIT AND DELETE */}
+                                {index === currChecked && isChecked ? (
+                                  <Checkbox
+                                    checked={true}
+                                    onChange={(event) =>
+                                      handleCheckboxChange(event, index)
+                                    }
+                                  />
+                                ) : (
+                                  <Checkbox
+                                    checked={false}
+                                    onChange={(event) =>
+                                      handleCheckboxChange(event, index)
+                                    }
+                                  />
+                                )}
+                              </td>
+                              <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                {row.id}
+                              </td>
+                              <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                {row.name}
+                              </td>
+                              <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                {row.year}
+                              </td>
+                              {/* <td class="whitespace-nowrap px-6 py-4">
+                                    Cell
+                                  </td>
+                                  <td class="whitespace-nowrap px-6 py-4">
+                                    Cell
+                                  </td> */}
+                            </tr>
+                          );
+                        }
+
+                        
                       })}
                     </tbody>
                   </table>
