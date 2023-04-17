@@ -83,7 +83,7 @@ const controller3 = {
         mysqlConnection3.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
             if (err) {
                 console.log(err);
-                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "add", -1);  
+                helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "add", -1);  
                 addMovieServerDown(req, res)
             } else {
                 var existing = JSON.parse(JSON.stringify(result))
@@ -207,7 +207,7 @@ const controller3 = {
             mysqlConnection3.query(`SELECT * FROM movies m WHERE m.name = '${req.body.name}' AND m.year = '${req.body.year}'`, (err, result) => {
                 if (err){
                     console.log(err)
-                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection3, 2, "edit", `${req.body.id}`);  
+                    helper.addQueryToLog (req, res, mysqlConnection1, mysqlConnection2, 3, "edit", `${req.body.id}`);  
                     success = editMovieServerDown(req, res)
                 } else {
                     var existing = JSON.parse(JSON.stringify(result))
