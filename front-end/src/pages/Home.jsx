@@ -39,15 +39,15 @@ export default function Home() {
     setSearch(inputSearch);
   };
 
-  useEffect(()=>{
-    console.log('at useffect of isolation',isolationLevel)
-    async function setIsolation() {
-      const response = await axios.get(`http://localhost:80/api/isolationlevel/${isolationLevel}`);
-      console.log("at the main effect",response);
-      handleSetLevel(response.data)
-    }
-    setIsolation();
-  },[isolationLevel])
+  // useEffect(()=>{
+  //   console.log('at useffect of isolation',isolationLevel)
+  //   async function setIsolation() {
+  //     const response = await axios.get(`http://localhost:80/api/isolationlevel/${isolationLevel}`);
+  //     console.log("at the main effect",response);
+  //     handleSetLevel(response.data)
+  //   }
+  //   setIsolation();
+  // },[isolationLevel])
 
   useEffect(() => {
     async function searchData() {
@@ -140,7 +140,7 @@ export default function Home() {
       fetchData2();
       fetchData3();
     }
-  }, [search,isolationLevel]);
+  }, [search]);
 
   const handleSetNode = (node) => {
     setNode(node);
@@ -237,7 +237,7 @@ export default function Home() {
               </div>
 
               {/* ISOLATION LEVELS */}
-              <IsolationLevels isolationLevel={isolationLevel} handleSetLevel={handleSetLevel}/>
+              {/* <IsolationLevels isolationLevel={isolationLevel} handleSetLevel={handleSetLevel}/> */}
             </div>
           </div>
           {/* END OF SORTING */}
@@ -317,6 +317,7 @@ export default function Home() {
               handleCheckbox={handleCheckbox}
               isChecked={isChecked}
               setIsChecked={setIsChecked}
+              search={search}
             ></Table>
           </div>
         </div>

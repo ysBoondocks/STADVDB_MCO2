@@ -6,6 +6,7 @@ export default function Table({
   handleCheckbox,
   isChecked,
   setIsChecked,
+  search
 }) {
   const [show, setShow] = useState(null);
 
@@ -54,7 +55,44 @@ export default function Table({
                         if(row.flag){
                           return (<></>)
                         }
-                        else{
+                        else if(search !== ''){
+                          if(row.name === search){
+                            return (
+                              <tr
+                                class="border-b dark:border-neutral-500"
+                                key={index}
+                              >
+                                <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                  {/* CHECKBOX FOR EDIT AND DELETE */}
+                                  {index === currChecked && isChecked ? (
+                                    <Checkbox
+                                      checked={true}
+                                      onChange={(event) =>
+                                        handleCheckboxChange(event, index)
+                                      }
+                                    />
+                                  ) : (
+                                    <Checkbox
+                                      checked={false}
+                                      onChange={(event) =>
+                                        handleCheckboxChange(event, index)
+                                      }
+                                    />
+                                  )}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                  {row.id}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                  {row.name}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium">
+                                  {row.year}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        }else{
                           return (
                             <tr
                               class="border-b dark:border-neutral-500"
@@ -87,12 +125,6 @@ export default function Table({
                               <td class="whitespace-nowrap px-6 py-4 font-medium">
                                 {row.year}
                               </td>
-                              {/* <td class="whitespace-nowrap px-6 py-4">
-                                    Cell
-                                  </td>
-                                  <td class="whitespace-nowrap px-6 py-4">
-                                    Cell
-                                  </td> */}
                             </tr>
                           );
                         }
