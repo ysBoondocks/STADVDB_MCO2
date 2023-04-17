@@ -5,6 +5,38 @@ const mysqlConnection3 = require('../../mysql3');
 const helper = require('./helper');
 
 const controller = {
+
+    setIsolationLevel: function(req,res){
+        // switch(req.params.isolation){
+        //     case 1:
+        //         mysqlConnection.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITABLE`);
+        //         mysqlConnection2.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITABLE`);
+        //         mysqlConnection3.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITABLE`);
+        //         break;
+
+        //     case 2:
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITABLE`);
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITABLE`);
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITABLE`);
+        //         break;
+
+        //     case 3:
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ`);
+        //         break;
+
+        //     case 4:
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
+        //         mysqlConnection1.query(`SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE`);
+        //         break;
+
+        // }
+        console.log("hello",req.params.isolation);
+        res.send(`Isolation Level set to ${req.params.isolation}`);
+    },
+
     getMovies: function (req, res) {
 	//Verify Node 1,2, and 3 are all the same
          mysqlConnection.query('SELECT * FROM movies', (err, result) => {

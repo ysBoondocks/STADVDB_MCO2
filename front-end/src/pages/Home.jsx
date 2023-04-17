@@ -32,7 +32,12 @@ export default function Home() {
   const [rows3, setRows3] = useState([]);
 
   const handleSetLevel = (level) => {
+
+    
+    console.log("hehe",level);
     setisolationLevel(level);
+
+    
   }
 
   const handleSearch = (inputSearch) => {
@@ -77,6 +82,12 @@ export default function Home() {
     getLogs();
     getLogs2();
     getLogs3();
+
+    async function setIsolation() {
+      const response = await axios.get(`http://localhost:80/api/isolationlevel/${isolationLevel}`);
+      console.log("HELLO",response);
+    }
+    setIsolation();
 
     //MAKE THESE WAIT FOR THE LOGS
     async function fetchData() {
